@@ -1,0 +1,206 @@
+{
+  "Metadata": {
+    "Id": "3b71a968-eca0-40e0-b84c-c42da6207882",
+    "Kind": "FormIo"
+  },
+  "DesignProperties": {
+    "Title": "BoardPass",
+    "Theme": "Sandstone",
+    "ShowInTaskbar": true,
+    "ShowMargin": true,
+    "CustomStyle": ""
+  },
+  "Data": {
+    "components": [
+      {
+        "label": "Destination",
+        "widget": "choicesjs",
+        "placeholder": "Please pick your destination city",
+        "tooltip": "Please select your destination from the drop-down list. SmileAvia offers flights to all available destinations shown below.",
+        "tableView": true,
+        "data": {
+          "values": [
+            {
+              "label": "Vienna (VIE)",
+              "value": "VIE"
+            },
+            {
+              "label": "Paris (CDG)",
+              "value": "CDG"
+            },
+            {
+              "label": "London (LHR)",
+              "value": "LHR"
+            },
+            {
+              "label": "Barcelona (BCN)",
+              "value": "BCN"
+            }
+          ]
+        },
+        "validate": {
+          "required": true
+        },
+        "key": "destination",
+        "type": "select",
+        "input": true
+      },
+      {
+        "label": "Departure Date",
+        "description": "Please select a suitable travel date.",
+        "tooltip": "Please note that our outstanding airline, SmileAvia, will reserve a private jet for you at any date and time that is most convenient for your journey.",
+        "tableView": false,
+        "datePicker": {
+          "disableWeekends": false,
+          "disableWeekdays": false,
+          "minDate": "moment().startOf('day')"
+        },
+        "validate": {
+          "required": true
+        },
+        "enableMinDateInput": true,
+        "enableMaxDateInput": false,
+        "key": "departureDate",
+        "type": "datetime",
+        "input": true,
+        "widget": {
+          "type": "calendar",
+          "displayInTimezone": "viewer",
+          "locale": "en",
+          "useLocaleSettings": false,
+          "allowInput": true,
+          "mode": "single",
+          "enableTime": true,
+          "noCalendar": false,
+          "format": "yyyy-MM-dd hh:mm a",
+          "hourIncrement": 1,
+          "minuteIncrement": 1,
+          "time_24hr": false,
+          "minDate": "moment().startOf('day')",
+          "disableWeekends": false,
+          "disableWeekdays": false,
+          "maxDate": null
+        }
+      },
+      {
+        "label": "Return Date",
+        "description": "Please select your preferred return date.",
+        "tooltip": "Don't worry — your SmileAvia private jet will be waiting for you.",
+        "tableView": false,
+        "datePicker": {
+          "disableFunction": "data.departureDate\r\n  ? moment(date).startOf('day').isBefore(\r\n      moment(data.departureDate).add(1, 'days').startOf('day')\r\n    )\r\n  : true",
+          "disableWeekends": false,
+          "disableWeekdays": false,
+          "minDate": "moment().startOf('day')"
+        },
+        "validate": {
+          "required": true
+        },
+        "enableMinDateInput": true,
+        "enableMaxDateInput": false,
+        "key": "returnDate",
+        "logic": [
+          {
+            "name": "Disable return date until departure selected",
+            "trigger": {
+              "type": "javascript",
+              "javascript": "!data.departureDate"
+            },
+            "actions": [
+              {
+                "name": "Disabled",
+                "type": "property",
+                "property": {
+                  "label": "Disabled",
+                  "value": "disabled",
+                  "type": "boolean"
+                },
+                "state": true
+              }
+            ]
+          },
+          {
+            "name": "Active ",
+            "trigger": {
+              "type": "javascript",
+              "javascript": "!!data.departureDate"
+            },
+            "actions": [
+              {
+                "name": "Active",
+                "type": "property",
+                "property": {
+                  "label": "Disabled",
+                  "value": "disabled",
+                  "type": "boolean"
+                },
+                "state": false
+              }
+            ]
+          }
+        ],
+        "type": "datetime",
+        "input": true,
+        "widget": {
+          "type": "calendar",
+          "displayInTimezone": "viewer",
+          "locale": "en",
+          "useLocaleSettings": false,
+          "allowInput": true,
+          "mode": "single",
+          "enableTime": true,
+          "noCalendar": false,
+          "format": "yyyy-MM-dd hh:mm a",
+          "hourIncrement": 1,
+          "minuteIncrement": 1,
+          "time_24hr": false,
+          "minDate": "moment().startOf('day')",
+          "disableWeekends": false,
+          "disableWeekdays": false,
+          "disableFunction": "data.departureDate\r\n  ? moment(date).startOf('day').isBefore(\r\n      moment(data.departureDate).add(1, 'days').startOf('day')\r\n    )\r\n  : true",
+          "maxDate": null
+        }
+      },
+      {
+        "label": "Additional Baggage Options",
+        "optionsLabelPosition": "right",
+        "tooltip": "Please select the baggage option that best suits your travel needs.\r\nAt SmileAvia, we believe baggage limits should never stand between you and your dreams.",
+        "inline": false,
+        "tableView": false,
+        "values": [
+          {
+            "label": "Cabin baggage only (unlimited weight)",
+            "value": "Cabin",
+            "shortcut": ""
+          },
+          {
+            "label": "Additional baggage up to 100 kg of any size",
+            "value": "Additional",
+            "shortcut": ""
+          },
+          {
+            "label": "No additional baggage needed — a dedicated cargo Boeing will deliver it on the next flight",
+            "value": "Empty",
+            "shortcut": ""
+          }
+        ],
+        "validate": {
+          "required": true
+        },
+        "key": "additionalBaggageOptions",
+        "type": "radio",
+        "input": true
+      },
+      {
+        "label": "Submit",
+        "showValidations": false,
+        "disableOnInvalid": true,
+        "tableView": false,
+        "key": "submit",
+        "type": "button",
+        "saveOnEnter": true,
+        "input": true
+      }
+    ]
+  }
+}
