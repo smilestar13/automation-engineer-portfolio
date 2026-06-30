@@ -1,0 +1,68 @@
+---
+- name: Collect AIOS points from all VPS
+  hosts: all
+  gather_facts: no
+  become: true
+
+  vars:
+    backup_dir: "/root/checker/backup"
+    backup_file: "{{ backup_dir }}/exampleproject_points_{{ lookup('pipe','date +%Y-%m-%d') }}.csv"
+
+  tasks:
+    - name: Create dir for CSV on control host
+      delegate_to: localhost
+      file:
+        path: "{{ backup_dir }}"
+        state: directory
+        mode: '0755'
+
+    - name: Ensure CSV header
+      delegate_to: localhost
+      lineinfile:
+        path: "{{ backup_file }}"
+        line: "inventory_hostname,points,multiplier,tier,uptime,allocation"
+        create: yes
+        insertafter: BOF
+        regexp: '^inventory_hostname,points,multiplier,tier,uptime,allocation$'
+
+    - name: Get points info from node (use full path)
+      shell: |
+        source $HOME/.bashrc >/dev/null 2>&1 || true
+        "$HOME/.aios/aios-cli" hive points 2>&1 || true
+      args:
+        executable: /bin/bash
+      register: points_out
+      changed_when: false
+      failed_when: false
+
+    - name: Normalize lines
+      set_fact:
+        lines: "{{ points_out.stdout_lines | default([]) }}"
+
+    - name: Extract clean numeric values
+      set_fact:
+        aios_points: >-
+          {% set x = (lines | select('search', '^Points')) | list %}
+          {{ (x[0] | regex_replace('^.*?:\\s*', '') | regex_replace('[^0-9\\.]', '') | trim) if x|length > 0 else '' }}
+        aios_multiplier: >-
+          {% set x = (lines | select('search', '^Multiplier')) | list %}
+          {{ (x[0] | regex_replace('^.*?:\\s*', '') | regex_replace('[^0-9\\.]', '') | trim) if x|length > 0 else '' }}
+        aios_tier: >-
+          {% set x = (lines | select('search', '^Tier')) | list %}
+          {{ (x[0] | regex_replace('^.*?:\\s*', '') | regex_replace('[^0-9\\.]', '') | trim) if x|length > 0 else '' }}
+        aios_uptime: >-
+          {% set x = (lines | select('search', '^Uptime')) | list %}
+          {{ (x[0] | regex_replace('^.*?:\\s*', '') | regex_replace('[^0-9\\.]', '') | trim) if x|length > 0 else '' }}
+        aios_allocation: >-
+          {% set x = (lines | select('search', '^Allocation')) | list %}
+          {{ (x[0] | regex_replace('^.*?:\\s*', '') | regex_replace('[^0-9\\.]', '') | trim) if x|length > 0 else '' }}
+
+    - name: Save row to CSV on control host (numbers only)
+      delegate_to: localhost
+      lineinfile:
+        path: "{{ backup_file }}"
+        regexp: '^{{ inventory_hostname }},'
+        line: "{{ inventory_hostname }},{{ aios_points }},{{ aios_multiplier }},{{ aios_tier }},{{ aios_uptime }},{{ aios_allocation }}"
+        create: yes
+        insertafter: EOF
+
