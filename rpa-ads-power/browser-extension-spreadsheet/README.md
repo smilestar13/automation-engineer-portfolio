@@ -91,10 +91,8 @@ Complete Workflow
 
 ```
 Browser-Extension-Spreadsheet-Workflow/
-
 ├── README.md
-├── workflow.json
-└── screenshots/
+└── workflow.json
 ```
 
 ---
