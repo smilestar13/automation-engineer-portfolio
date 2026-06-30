@@ -1,0 +1,374 @@
+[
+  {
+    "type": "waitTime",
+    "config": {
+      "timeoutType": "fixedValue",
+      "timeout": 7000,
+      "timeoutMin": 1000,
+      "timeoutMax": 300000,
+      "remark": ""
+    }
+  },
+  {
+    "type": "ifElse",
+    "config": {
+      "condition": ["serial_number"],
+      "relation": "more",
+      "result": "0",
+      "hiddenChildren": false,
+      "children": [
+        {
+          "type": "newPage",
+          "config": {}
+        },
+        {
+          "type": "gotoUrl",
+          "config": {
+            "url": "chrome-extension://<extension-id>/popup.html",
+            "timeout": 30000,
+            "remark": ""
+          }
+        },
+        {
+          "type": "waitForSelector",
+          "config": {
+            "selectorRadio": "CSS",
+            "selector": "#main-panel > div.input-wrap > form > input.btn.btn-primary",
+            "serial": 1,
+            "isShow": "1",
+            "timeout": 10000,
+            "variable": "",
+            "remark": ""
+          }
+        },
+        {
+          "type": "waitTime",
+          "config": {
+            "timeoutType": "fixedValue",
+            "timeout": 3000,
+            "timeoutMin": 1000,
+            "timeoutMax": 300000,
+            "remark": ""
+          }
+        },
+        {
+          "type": "getElement",
+          "config": {
+            "selectorRadio": "CSS",
+            "selector": "#app > div.header > div > div > span.status",
+            "serial": 1,
+            "selectorType": "selector",
+            "serialType": "fixedValue",
+            "serialMin": 1,
+            "serialMax": 50,
+            "element": "",
+            "type": "innerText",
+            "key": "",
+            "variable": "account_status",
+            "remark": "Account status"
+          }
+        },
+        {
+          "type": "getElement",
+          "config": {
+            "selectorRadio": "CSS",
+            "selector": "#main-panel > div.input-wrap > div",
+            "serial": 1,
+            "selectorType": "selector",
+            "serialType": "fixedValue",
+            "serialMin": 1,
+            "serialMax": 50,
+            "element": "",
+            "type": "innerText",
+            "key": "",
+            "variable": "validation_message",
+            "remark": "Authorization validation message"
+          }
+        },
+        {
+          "type": "ifElse",
+          "config": {
+            "condition": ["validation_message"],
+            "relation": "exist",
+            "result": "",
+            "hiddenChildren": false,
+            "children": [
+              {
+                "type": "focusElement",
+                "config": {
+                  "selectorRadio": "CSS",
+                  "selector": "#authorization_key",
+                  "selectorType": "selector",
+                  "element": "",
+                  "serialType": "fixedValue",
+                  "serial": 1,
+                  "serialMin": 1,
+                  "serialMax": 50,
+                  "remark": ""
+                }
+              },
+              {
+                "type": "keyCombination",
+                "config": {
+                  "command": "ControlLeft+KeyA",
+                  "remark": "Select existing value"
+                }
+              },
+              {
+                "type": "keyboard",
+                "config": {
+                  "type": "Backspace",
+                  "remark": "Clear existing value"
+                }
+              },
+              {
+                "type": "waitTime",
+                "config": {
+                  "timeoutType": "fixedValue",
+                  "timeout": 500,
+                  "timeoutMin": 1000,
+                  "timeoutMax": 300000,
+                  "remark": ""
+                }
+              }
+            ],
+            "remark": "Clear invalid authorization key if validation message exists"
+          }
+        },
+        {
+          "type": "ifElse",
+          "config": {
+            "condition": ["account_status"],
+            "relation": "notExist",
+            "result": "",
+            "hiddenChildren": false,
+            "children": [
+              {
+                "type": "inputContent",
+                "config": {
+                  "selectorRadio": "CSS",
+                  "selector": "#authorization_key",
+                  "serialType": "fixedValue",
+                  "selectorType": "selector",
+                  "element": "",
+                  "serial": 1,
+                  "serialMin": 1,
+                  "serialMax": 50,
+                  "intervals": 30,
+                  "content": "${authorization_key}",
+                  "isRandom": "1",
+                  "randomContent": "${authorization_key}",
+                  "randomInputNum": {
+                    "min": 0.1,
+                    "max": 10
+                  },
+                  "remark": "Input authorization key",
+                  "isClear": "0"
+                }
+              },
+              {
+                "type": "click",
+                "config": {
+                  "selectorRadio": "CSS",
+                  "selector": "#main-panel > div.input-wrap > form > input.btn.btn-primary",
+                  "selectorType": "selector",
+                  "element": "",
+                  "serialType": "fixedValue",
+                  "serial": 1,
+                  "serialMin": 1,
+                  "serialMax": 50,
+                  "button": "left",
+                  "type": "click",
+                  "remark": "Submit authorization key"
+                }
+              },
+              {
+                "type": "waitTime",
+                "config": {
+                  "timeoutType": "fixedValue",
+                  "timeout": 3000,
+                  "timeoutMin": 1000,
+                  "timeoutMax": 300000,
+                  "remark": ""
+                }
+              }
+            ],
+            "remark": "Authorize browser extension if account status is missing"
+          }
+        },
+        {
+          "type": "closePage",
+          "config": {}
+        }
+      ],
+      "remark": "Browser Authentication"
+    }
+  },
+  {
+    "type": "newPage",
+    "config": {}
+  },
+  {
+    "type": "closeOtherPage",
+    "config": {}
+  },
+  {
+    "type": "gotoUrl",
+    "config": {
+      "url": "https://portal.example.com/",
+      "timeout": 30000,
+      "remark": "Open protected web portal"
+    }
+  },
+  {
+    "type": "waitForSelector",
+    "config": {
+      "selectorRadio": "TEXT",
+      "selector": "Sign In",
+      "serial": 1,
+      "isShow": "1",
+      "timeout": 30000,
+      "variable": "",
+      "remark": "Wait for sign-in button"
+    }
+  },
+  {
+    "type": "click",
+    "config": {
+      "selectorRadio": "TEXT",
+      "selector": "Sign In",
+      "selectorType": "selector",
+      "element": "",
+      "serialType": "fixedValue",
+      "serial": 1,
+      "serialMin": 1,
+      "serialMax": 50,
+      "button": "left",
+      "type": "click",
+      "remark": "Start authentication"
+    }
+  },
+  {
+    "type": "waitForSelector",
+    "config": {
+      "selectorRadio": "XPath",
+      "selector": "//input[@type=\"submit\" and @id=\"allow\"]",
+      "serial": 1,
+      "isShow": "1",
+      "timeout": 60000,
+      "variable": "",
+      "remark": "Wait for external provider confirmation"
+    }
+  },
+  {
+    "type": "click",
+    "config": {
+      "selectorRadio": "XPath",
+      "selector": "//input[@type=\"submit\" and @id=\"allow\"]",
+      "selectorType": "selector",
+      "element": "",
+      "serialType": "fixedValue",
+      "serial": 1,
+      "serialMin": 1,
+      "serialMax": 50,
+      "button": "left",
+      "type": "click",
+      "remark": "Confirm external provider authorization"
+    }
+  },
+  {
+    "type": "waitForSelector",
+    "config": {
+      "selectorRadio": "XPath",
+      "selector": "//*[@id=\"account_identifier\"]",
+      "serial": 1,
+      "isShow": "1",
+      "timeout": 30000,
+      "variable": "",
+      "remark": "Wait for account identifier field"
+    }
+  },
+  {
+    "type": "waitTime",
+    "config": {
+      "timeoutType": "fixedValue",
+      "timeout": 2000,
+      "timeoutMin": 1000,
+      "timeoutMax": 300000,
+      "remark": ""
+    }
+  },
+  {
+    "type": "inputContent",
+    "config": {
+      "selectorRadio": "XPath",
+      "selector": "//*[@id=\"account_identifier\"]",
+      "serialType": "fixedValue",
+      "selectorType": "selector",
+      "element": "",
+      "serial": 1,
+      "serialMin": 1,
+      "serialMax": 50,
+      "intervals": 30,
+      "content": "${account_identifier}",
+      "isRandom": "1",
+      "isClear": "0",
+      "randomContent": "${account_identifier}",
+      "randomInputNum": {
+        "min": 0.1,
+        "max": 10
+      },
+      "remark": "Input account identifier"
+    }
+  },
+  {
+    "type": "waitForSelector",
+    "config": {
+      "selectorRadio": "TEXT",
+      "selector": "Verification Completed",
+      "serial": 1,
+      "isShow": "1",
+      "timeout": 60000,
+      "variable": "",
+      "remark": "Wait for verification result"
+    }
+  },
+  {
+    "type": "waitTime",
+    "config": {
+      "timeoutType": "fixedValue",
+      "timeout": 500,
+      "timeoutMin": 1000,
+      "timeoutMax": 300000,
+      "remark": ""
+    }
+  },
+  {
+    "type": "click",
+    "config": {
+      "selectorRadio": "XPath",
+      "selector": "//button[text()=\"Submit Request\"]",
+      "selectorType": "selector",
+      "element": "",
+      "serialType": "fixedValue",
+      "serial": 1,
+      "serialMin": 1,
+      "serialMax": 50,
+      "button": "left",
+      "type": "click",
+      "remark": "Submit protected portal request"
+    }
+  },
+  {
+    "type": "waitForSelector",
+    "config": {
+      "selectorRadio": "TEXT",
+      "selector": "Operation Completed Successfully",
+      "serial": 1,
+      "isShow": "1",
+      "timeout": 60000,
+      "variable": "",
+      "remark": "Validate successful operation"
+    }
+  }
+]
