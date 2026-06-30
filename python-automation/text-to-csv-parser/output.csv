@@ -1,0 +1,8 @@
+customer_id,email,status
+CUST-001,john.smith@example.com,active
+CUST-002,emily.johnson@example.com,pending
+CUST-003,michael.brown@example.com,inactive
+CUST-004,sarah.wilson@example.com,active
+CUST-005,david.miller@example.com,pending
+CUST-006,lisa.anderson@example.com,active
+CUST-007,incomplete.record@example.com,active
