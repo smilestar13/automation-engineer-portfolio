@@ -1,0 +1,6 @@
+Flight Reservation Confirmation
+
+Destination: BCN
+Departure Date: 20.06.2026 12:00
+Return Date: 25.06.2026 12:00
+Baggage: Additional
