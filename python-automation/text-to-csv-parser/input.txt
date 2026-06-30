@@ -1,0 +1,27 @@
+customer_id: CUST-001
+email: john.smith@example.com
+status: active
+
+customer_id: CUST-002
+email: emily.johnson@example.com
+status: pending
+
+customer_id: CUST-003
+email: michael.brown@example.com
+status: inactive
+
+customer_id: CUST-004
+email: sarah.wilson@example.com
+status: active
+
+customer_id: CUST-005
+email: david.miller@example.com
+status: pending
+
+customer_id: CUST-006
+email: lisa.anderson@example.com
+status: active
+
+customer_id: CUST-007
+email: incomplete.record@example.com
+status: active
