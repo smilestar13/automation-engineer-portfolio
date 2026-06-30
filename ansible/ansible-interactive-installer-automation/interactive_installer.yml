@@ -1,0 +1,92 @@
+---
+- name: Automate interactive node installer
+  hosts: all
+  gather_facts: no
+  become: true
+  become_method: sudo
+  become_user: root
+
+  vars:
+    installer_url: "https://example.com/install.sh"
+    installer_path: "/tmp/service_installer.sh"
+    installer_log_path: "/tmp/service_installer.log"
+
+    private_rpc_url: "https://rpc.example.com"
+    deployment_records_file: "./deployment_records"
+
+    service_account_address: "{{ service_account_address }}"
+    service_private_key: "{{ service_private_key }}"
+
+  tasks:
+    - name: Download interactive installer script
+      ansible.builtin.get_url:
+        url: "{{ installer_url }}"
+        dest: "{{ installer_path }}"
+        mode: "0755"
+
+    - name: Try to find existing service address for account
+      ansible.builtin.shell: |
+        grep "^{{ service_account_address }} " "{{ deployment_records_file }}" | awk '{print $2}'
+      delegate_to: localhost
+      become: false
+      register: found_service_address
+      changed_when: false
+      failed_when: false
+
+    - name: Store existing service address if found
+      ansible.builtin.set_fact:
+        service_address: "{{ found_service_address.stdout | default('') }}"
+
+    - name: Run interactive node installer
+      ansible.builtin.expect:
+        command: "sh -c '{{ installer_path }} | tee {{ installer_log_path }}'"
+        responses:
+          "Enter account address.*:": "{{ service_account_address }}\n"
+          "Enter account private key.*:": "{{ service_private_key }}\n"
+          "Enter existing service address.*:": "{{ service_address }}\n"
+          "Enter private RPC URL.*:": "{{ private_rpc_url }}\n"
+          "Do you want to apply these changes.*:": "yes\n"
+        timeout: 3000
+      timeout: 3000
+      no_log: true
+
+    - name: Read installer log
+      ansible.builtin.shell: "cat {{ installer_log_path }}"
+      register: installer_log
+      changed_when: false
+
+    - name: Validate installer reached registration step
+      ansible.builtin.assert:
+        that:
+          - "'Registering service operator' in installer_log.stdout"
+        fail_msg: "Registration step was not found in installer log."
+        success_msg: "Registration step found in installer log."
+
+    - name: Extract generated service address from log
+      ansible.builtin.shell: |
+        grep serviceAddress "{{ installer_log_path }}" | tail -n 1 | awk -F': ' '{print $2}' | tr -d ','
+      register: service_address_raw
+      changed_when: false
+      failed_when: false
+
+    - name: Extract generated service hash from log
+      ansible.builtin.shell: |
+        grep serviceHash "{{ installer_log_path }}" | tail -n 1 | awk -F': ' '{print $2}' | tr -d ','
+      register: service_hash_raw
+      changed_when: false
+      failed_when: false
+
+    - name: Save deployment metadata on control machine
+      ansible.builtin.lineinfile:
+        path: "{{ deployment_records_file }}"
+        line: "{{ service_account_address }} {{ service_address_raw.stdout }} {{ service_hash_raw.stdout }}"
+        create: true
+        insertafter: EOF
+        mode: "0600"
+      delegate_to: localhost
+      become: false
+      when:
+        - service_address_raw.stdout is defined
+        - service_address_raw.stdout | length > 0
+        - service_hash_raw.stdout is defined
+        - service_hash_raw.stdout | length > 0
