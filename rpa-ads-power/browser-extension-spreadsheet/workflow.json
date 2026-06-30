@@ -1,0 +1,719 @@
+[
+  {
+    "type": "waitTime",
+    "config": {
+      "timeoutType": "fixedValue",
+      "timeout": 5000,
+      "timeoutMin": 5000,
+      "timeoutMax": 10000,
+      "remark": ""
+    }
+  },
+  {
+    "type": "useExcel",
+    "config": {
+      "path": "C:\\Users\\example-path\\Work.xlsx",
+      "variableList": [
+        "serial_number",
+        "pwd",
+        "name",
+        "email",
+        "acc_name",
+        "ip",
+        "secret_phrase",
+        "account_password",
+      ],
+      "isSkip": "1",
+      "remark": "",
+      "variable": "extension_session"
+    }
+  },
+  {
+    "type": "ifElse",
+    "config": {
+      "condition": [
+        "serial_number"
+      ],
+      "relation": "exist",
+      "result": "",
+      "hiddenChildren": false,
+      "children": [
+        {
+          "type": "newPage",
+          "config": {}
+        },
+        {
+          "type": "gotoUrl",
+          "config": {
+            "url": "chrome-extension://<extension-id>/home.html",
+            "timeout": 30000,
+            "remark": ""
+          }
+        },
+        {
+          "type": "waitTime",
+          "config": {
+            "timeoutType": "fixedValue",
+            "timeout": 4000,
+            "timeoutMin": 1000,
+            "timeoutMax": 300000,
+            "remark": ""
+          }
+        },
+        {
+          "type": "waitForSelector",
+          "config": {
+            "selectorRadio": "CSS",
+            "selector": "#app-content",
+            "serial": 1,
+            "isShow": "1",
+            "timeout": 60000,
+            "variable": "",
+            "remark": ""
+          }
+        },
+        {
+          "type": "waitTime",
+          "config": {
+            "timeoutType": "fixedValue",
+            "timeout": 3000,
+            "timeoutMin": 1000,
+            "timeoutMax": 300000,
+            "remark": "",
+            "_copyItemIndex": "0_1_2",
+            "_copyItemType": "children_children"
+          }
+        },
+        {
+          "type": "getUrl",
+          "config": {
+            "type": "href",
+            "key": "",
+            "variable": "extension_url",
+            "remark": ""
+          }
+        },
+        {
+          "type": "waitTime",
+          "config": {
+            "timeoutType": "fixedValue",
+            "timeout": 500,
+            "timeoutMin": 1000,
+            "timeoutMax": 300000,
+            "remark": "",
+            "_copyItemIndex": "0_3",
+            "_copyItemType": ""
+          }
+        },
+        {
+          "type": "ifElse",
+          "config": {
+            "condition": [
+              "extension_url"
+            ],
+            "relation": "contain",
+            "result": "welcome",
+            "hiddenChildren": false,
+            "children": [
+              {
+                "type": "click",
+                "config": {
+                  "selectorRadio": "CSS",
+                  "selector": "#onboarding__terms-checkbox",
+                  "selectorType": "selector",
+                  "element": "",
+                  "serialType": "fixedValue",
+                  "serial": 1,
+                  "serialMin": 1,
+                  "serialMax": 50,
+                  "button": "left",
+                  "type": "click",
+                  "remark": ""
+                }
+              },
+              {
+                "type": "waitTime",
+                "config": {
+                  "timeoutType": "fixedValue",
+                  "timeout": 600,
+                  "timeoutMin": 1000,
+                  "timeoutMax": 300000,
+                  "remark": ""
+                }
+              },
+              {
+                "type": "click",
+                "config": {
+                  "selectorRadio": "CSS",
+                  "selector": "#app-content > div > div.mm-box.main-container-wrapper > div > div > div > ul > li:nth-child(3) > button",
+                  "selectorType": "selector",
+                  "element": "",
+                  "serialType": "fixedValue",
+                  "serial": 1,
+                  "serialMin": 1,
+                  "serialMax": 50,
+                  "button": "left",
+                  "type": "click",
+                  "remark": ""
+                }
+              },
+              {
+                "type": "waitTime",
+                "config": {
+                  "timeoutType": "fixedValue",
+                  "timeout": 500,
+                  "timeoutMin": 1000,
+                  "timeoutMax": 300000,
+                  "remark": ""
+                }
+              },
+              {
+                "type": "click",
+                "config": {
+                  "selectorRadio": "CSS",
+                  "selector": "[data-testid=\"metametrics-no-thanks\"]",
+                  "selectorType": "selector",
+                  "element": "",
+                  "serialType": "fixedValue",
+                  "serial": 1,
+                  "serialMin": 1,
+                  "serialMax": 50,
+                  "button": "left",
+                  "type": "click",
+                  "remark": "metametrics-no-thanks"
+                }
+              },
+              {
+                "type": "waitTime",
+                "config": {
+                  "timeoutType": "fixedValue",
+                  "timeout": 500,
+                  "timeoutMin": 1000,
+                  "timeoutMax": 300000,
+                  "remark": "",
+                  "_copyItemIndex": "0_2_7_3",
+                  "_copyItemType": "children_children_children"
+                }
+              },
+              {
+                "type": "click",
+                "config": {
+                  "selectorRadio": "CSS",
+                  "selector": ".btn-primary",
+                  "selectorType": "selector",
+                  "element": "",
+                  "serialType": "fixedValue",
+                  "serial": 1,
+                  "serialMin": 1,
+                  "serialMax": 50,
+                  "button": "left",
+                  "type": "click",
+                  "remark": ""
+                }
+              },
+              {
+                "type": "waitTime",
+                "config": {
+                  "timeoutType": "fixedValue",
+                  "timeout": 1000,
+                  "timeoutMin": 1000,
+                  "timeoutMax": 300000,
+                  "remark": ""
+                }
+              },
+              {
+                "type": "ifElse",
+                "config": {
+                  "condition": [
+                    "serial_number"
+                  ],
+                  "relation": "exist",
+                  "result": "",
+                  "hiddenChildren": false,
+                  "children": [
+                    {
+                      "type": "newPage",
+                      "config": {}
+                    },
+                    {
+                      "type": "gotoUrl",
+                      "config": {
+                        "url": "chrome://settings/autofill",
+                        "timeout": 30000,
+                        "remark": ""
+                      }
+                    },
+                    {
+                      "type": "waitTime",
+                      "config": {
+                        "timeoutType": "fixedValue",
+                        "timeout": 2000,
+                        "timeoutMin": 1000,
+                        "timeoutMax": 300000,
+                        "remark": "",
+                        "_copyItemIndex": "0_1_7_5",
+                        "_copyItemType": "children_children_children"
+                      }
+                    },
+                    {
+                      "type": "getActiveElement",
+                      "config": {
+                        "variable": "search",
+                        "remark": ""
+                      }
+                    },
+                    {
+                      "type": "inputContent",
+                      "config": {
+                        "selectorRadio": "CSS",
+                        "selector": "",
+                        "serialType": "fixedValue",
+                        "selectorType": "element",
+                        "element": "search",
+                        "serial": 1,
+                        "serialMin": 1,
+                        "serialMax": 50,
+                        "intervals": 10,
+                        "content": "${secret_phrase}",
+                        "isRandom": "0",
+                        "randomContent": "${secret_phrase}",
+                        "randomInputNum": {
+                          "min": 0.1,
+                          "max": 10
+                        },
+                        "remark": ""
+                      }
+                    },
+                    {
+                      "type": "keyCombination",
+                      "config": {
+                        "command": "ControlLeft+KeyA",
+                        "remark": ""
+                      }
+                    },
+                    {
+                      "type": "keyCombination",
+                      "config": {
+                        "command": "ControlLeft+KeyC",
+                        "remark": "",
+                        "_copyItemIndex": "0_1_7_6_4",
+                        "_copyItemType": "children_children_children_children"
+                      }
+                    },
+                    {
+                      "type": "closePage",
+                      "config": {}
+                    }
+                  ],
+                  "remark": "Copy variable"
+                }
+              },
+              {
+                "type": "waitTime",
+                "config": {
+                  "timeoutType": "fixedValue",
+                  "timeout": 1000,
+                  "timeoutMin": 1000,
+                  "timeoutMax": 300000,
+                  "remark": ""
+                }
+              },
+              {
+                "type": "focusElement",
+                "config": {
+                  "selectorRadio": "CSS",
+                  "selector": "#import-srp__srp-word-0",
+                  "selectorType": "selector",
+                  "element": "",
+                  "serialType": "fixedValue",
+                  "serial": 1,
+                  "serialMin": 1,
+                  "serialMax": 50,
+                  "remark": ""
+                }
+              },
+              {
+                "type": "keyCombination",
+                "config": {
+                  "command": "ControlLeft+KeyV",
+                  "remark": "",
+                  "_copyItemIndex": "0_1_7_6_5",
+                  "_copyItemType": "children_children_children_children"
+                }
+              },
+              {
+                "type": "waitTime",
+                "config": {
+                  "timeoutType": "fixedValue",
+                  "timeout": 1000,
+                  "timeoutMin": 1000,
+                  "timeoutMax": 300000,
+                  "remark": "",
+                  "_copyItemIndex": "0_1_7_7",
+                  "_copyItemType": "children_children_children"
+                }
+              },
+              {
+                "type": "click",
+                "config": {
+                  "selectorRadio": "CSS",
+                  "selector": ".btn-primary",
+                  "selectorType": "selector",
+                  "element": "",
+                  "serialType": "fixedValue",
+                  "serial": 1,
+                  "serialMin": 1,
+                  "serialMax": 50,
+                  "button": "left",
+                  "type": "click",
+                  "remark": ""
+                }
+              },
+              {
+                "type": "waitTime",
+                "config": {
+                  "timeoutType": "fixedValue",
+                  "timeout": 300,
+                  "timeoutMin": 1000,
+                  "timeoutMax": 300000,
+                  "remark": ""
+                }
+              },
+              {
+                "type": "inputContent",
+                "config": {
+                  "selectorRadio": "CSS",
+                  "selector": "#app-content > div > div.mm-box.main-container-wrapper > div > div > div > div.mm-box.mm-box--margin-top-3.mm-box--justify-content-center > form > div:nth-child(1) > label > input",
+                  "serialType": "fixedValue",
+                  "selectorType": "selector",
+                  "element": "",
+                  "serial": 1,
+                  "serialMin": 1,
+                  "serialMax": 50,
+                  "intervals": 10,
+                  "content": "${account_password}",
+                  "isRandom": "1",
+                  "randomContent": "${account_password}",
+                  "randomInputNum": {
+                    "min": 0.1,
+                    "max": 10
+                  },
+                  "remark": ""
+                }
+              },
+              {
+                "type": "waitTime",
+                "config": {
+                  "timeoutType": "fixedValue",
+                  "timeout": 300,
+                  "timeoutMin": 1000,
+                  "timeoutMax": 300000,
+                  "remark": ""
+                }
+              },
+              {
+                "type": "inputContent",
+                "config": {
+                  "selectorRadio": "CSS",
+                  "selector": "#app-content > div > div.mm-box.main-container-wrapper > div > div > div > div.mm-box.mm-box--margin-top-3.mm-box--justify-content-center > form > div:nth-child(2) > label > input",
+                  "serialType": "fixedValue",
+                  "selectorType": "selector",
+                  "element": "",
+                  "serial": 1,
+                  "serialMin": 1,
+                  "serialMax": 50,
+                  "intervals": 10,
+                  "content": "${account_password}",
+                  "isRandom": "1",
+                  "randomContent": "${account_password}",
+                  "randomInputNum": {
+                    "min": 0.1,
+                    "max": 10
+                  },
+                  "remark": ""
+                }
+              },
+              {
+                "type": "waitTime",
+                "config": {
+                  "timeoutType": "fixedValue",
+                  "timeout": 300,
+                  "timeoutMin": 1000,
+                  "timeoutMax": 300000,
+                  "remark": ""
+                }
+              },
+              {
+                "type": "click",
+                "config": {
+                  "selectorRadio": "CSS",
+                  "selector": "[data-testid=\"create-password-terms\"]",
+                  "selectorType": "selector",
+                  "element": "",
+                  "serialType": "fixedValue",
+                  "serial": 1,
+                  "serialMin": 1,
+                  "serialMax": 50,
+                  "button": "left",
+                  "type": "click",
+                  "remark": ""
+                }
+              },
+              {
+                "type": "waitTime",
+                "config": {
+                  "timeoutType": "fixedValue",
+                  "timeout": 300,
+                  "timeoutMin": 1000,
+                  "timeoutMax": 300000,
+                  "remark": ""
+                }
+              },
+              {
+                "type": "click",
+                "config": {
+                  "selectorRadio": "CSS",
+                  "selector": "#app-content > div > div.mm-box.main-container-wrapper > div > div > div > div.mm-box.mm-box--margin-top-3.mm-box--justify-content-center > form > button",
+                  "selectorType": "selector",
+                  "element": "",
+                  "serialType": "fixedValue",
+                  "serial": 1,
+                  "serialMin": 1,
+                  "serialMax": 50,
+                  "button": "left",
+                  "type": "click",
+                  "remark": ""
+                }
+              },
+              {
+                "type": "waitTime",
+                "config": {
+                  "timeoutType": "fixedValue",
+                  "timeout": 300,
+                  "timeoutMin": 1000,
+                  "timeoutMax": 300000,
+                  "remark": ""
+                }
+              },
+              {
+                "type": "click",
+                "config": {
+                  "selectorRadio": "CSS",
+                  "selector": "[data-testid=\"onboarding-complete-done\"]",
+                  "selectorType": "selector",
+                  "element": "",
+                  "serialType": "fixedValue",
+                  "serial": 1,
+                  "serialMin": 1,
+                  "serialMax": 50,
+                  "button": "left",
+                  "type": "click",
+                  "remark": ""
+                }
+              },
+              {
+                "type": "waitTime",
+                "config": {
+                  "timeoutType": "fixedValue",
+                  "timeout": 1000,
+                  "timeoutMin": 1000,
+                  "timeoutMax": 300000,
+                  "remark": "",
+                  "_copyItemIndex": "0_40",
+                  "_copyItemType": ""
+                }
+              },
+              {
+                "type": "click",
+                "config": {
+                  "selectorRadio": "CSS",
+                  "selector": "#app-content > div > div.mm-box.main-container-wrapper > div > div > div > div.onboarding-pin-extension__buttons > button",
+                  "selectorType": "selector",
+                  "element": "",
+                  "serialType": "fixedValue",
+                  "serial": 1,
+                  "serialMin": 1,
+                  "serialMax": 50,
+                  "button": "left",
+                  "type": "click",
+                  "remark": ""
+                }
+              },
+              {
+                "type": "waitTime",
+                "config": {
+                  "timeoutType": "fixedValue",
+                  "timeout": 1000,
+                  "timeoutMin": 1000,
+                  "timeoutMax": 300000,
+                  "remark": "",
+                  "_copyItemIndex": "0_42",
+                  "_copyItemType": ""
+                }
+              },
+              {
+                "type": "click",
+                "config": {
+                  "selectorRadio": "CSS",
+                  "selector": "#app-content > div > div.mm-box.main-container-wrapper > div > div > div > div.onboarding-pin-extension__buttons > button",
+                  "selectorType": "selector",
+                  "element": "",
+                  "serialType": "fixedValue",
+                  "serial": 1,
+                  "serialMin": 1,
+                  "serialMax": 50,
+                  "button": "left",
+                  "type": "click",
+                  "remark": ""
+                }
+              },
+              {
+                "type": "waitTime",
+                "config": {
+                  "timeoutType": "fixedValue",
+                  "timeout": 1000,
+                  "timeoutMin": 1000,
+                  "timeoutMax": 300000,
+                  "remark": "",
+                  "_copyItemIndex": "0_44",
+                  "_copyItemType": ""
+                }
+              }
+            ],
+            "remark": "Import account credentials",
+            "other": [
+              {
+                "type": "inputContent",
+                "config": {
+                  "selectorRadio": "CSS",
+                  "selector": "#password",
+                  "serialType": "fixedValue",
+                  "selectorType": "selector",
+                  "element": "",
+                  "serial": 1,
+                  "serialMin": 1,
+                  "serialMax": 50,
+                  "intervals": 10,
+                  "content": "${account_password}",
+                  "isRandom": "1",
+                  "randomContent": "${account_password}",
+                  "randomInputNum": {
+                    "min": 0.1,
+                    "max": 10
+                  },
+                  "remark": "",
+                  "_copyItemIndex": "0_1_6_0",
+                  "_copyItemType": "children_other_other"
+                }
+              },
+              {
+                "type": "keyboard",
+                "config": {
+                  "type": "Enter",
+                  "remark": "",
+                  "_copyItemIndex": "0_1_6_1",
+                  "_copyItemType": "children_other_other"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "waitTime",
+          "config": {
+            "timeoutType": "fixedValue",
+            "timeout": 1000,
+            "timeoutMin": 1000,
+            "timeoutMax": 300000,
+            "remark": "",
+            "_copyItemIndex": "0_1_7_33",
+            "_copyItemType": "children_children_children"
+          }
+        },
+        {
+          "type": "getUrl",
+          "config": {
+            "type": "href",
+            "key": "",
+            "variable": "extension_onboarding_url",
+            "remark": ""
+          }
+        },
+        {
+          "type": "ifElse",
+          "config": {
+            "condition": [
+              "extension_onboarding_url"
+            ],
+            "relation": "contain",
+            "result": "#onboarding",
+            "hiddenChildren": true,
+            "children": [
+              {
+                "type": "forTimes",
+                "config": {
+                  "times": 5,
+                  "variableIndex": "for_times_index",
+                  "remark": "",
+                  "hiddenChildren": false,
+                  "children": [
+                    {
+                      "type": "waitTime",
+                      "config": {
+                        "timeoutType": "fixedValue",
+                        "timeout": 1000,
+                        "timeoutMin": 1000,
+                        "timeoutMax": 300000,
+                        "remark": "",
+                        "_copyItemIndex": "0_1_8",
+                        "_copyItemType": "children_children"
+                      }
+                    },
+                    {
+                      "type": "click",
+                      "config": {
+                        "selectorRadio": "CSS",
+                        "selector": ".btn-primary",
+                        "selectorType": "selector",
+                        "element": "",
+                        "serialType": "fixedValue",
+                        "serial": 1,
+                        "serialMin": 1,
+                        "serialMax": 50,
+                        "button": "left",
+                        "type": "click",
+                        "remark": ""
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "waitTime",
+                "config": {
+                  "timeoutType": "fixedValue",
+                  "timeout": 1000,
+                  "timeoutMin": 1000,
+                  "timeoutMax": 300000,
+                  "remark": "",
+                  "_copyItemIndex": "0_1_8",
+                  "_copyItemType": "children_children"
+                }
+              }
+            ],
+            "remark": "Handle onboarding sequence"
+          }
+        },
+        {
+          "type": "closePage",
+          "config": {}
+        }
+      ],
+      "remark": "Extension"
+    }
+  },
+  {
+    "type": "newPage",
+    "config": {}
+  }
+]
