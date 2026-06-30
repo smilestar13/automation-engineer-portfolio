@@ -1,0 +1,331 @@
+[
+  {
+    "type": "newPage",
+    "config": {}
+  },
+  {
+    "type": "useExcel",
+    "config": {
+      "path": "C:\\Users\\example-path\\registration-data.xlsx",
+      "variableList": [
+        "serial_number",
+        "user_name",
+        "user_email",
+        "account_name",
+        "account_identifier",
+        "extension_password",
+        "authorization_key",
+        "proxy_ip"
+      ],
+      "isSkip": "0",
+      "remark": "Load registration data from spreadsheet"
+    }
+  },
+  {
+    "type": "gotoUrl",
+    "config": {
+      "url": "chrome-extension://<extension-id>/home.html",
+      "timeout": 3000,
+      "remark": "Open browser extension"
+    }
+  },
+  {
+    "type": "waitForSelector",
+    "config": {
+      "selectorRadio": "CSS",
+      "selector": "[type=\"password\"]",
+      "serial": 1,
+      "isShow": "1",
+      "timeout": 30000,
+      "variable": "",
+      "remark": "Wait for extension password field"
+    }
+  },
+  {
+    "type": "getActiveElement",
+    "config": {
+      "variable": "active_element",
+      "remark": "Get active password input"
+    }
+  },
+  {
+    "type": "inputContent",
+    "config": {
+      "selectorRadio": "CSS",
+      "selector": "",
+      "serialType": "fixedValue",
+      "selectorType": "element",
+      "element": "active_element",
+      "serial": 1,
+      "serialMin": 1,
+      "serialMax": 50,
+      "intervals": 30,
+      "content": "",
+      "isRandom": "0",
+      "randomContent": "${extension_password}",
+      "randomInputNum": {
+        "min": 0.1,
+        "max": 10
+      },
+      "remark": "Input extension password"
+    }
+  },
+  {
+    "type": "keyboard",
+    "config": {
+      "type": "Enter",
+      "remark": "Submit extension password"
+    }
+  },
+  {
+    "type": "waitTime",
+    "config": {
+      "timeoutType": "fixedValue",
+      "timeout": 3000,
+      "timeoutMin": 1000,
+      "timeoutMax": 300000,
+      "remark": "Wait for extension unlock"
+    }
+  },
+  {
+    "type": "closePage",
+    "config": {}
+  },
+  {
+    "type": "newPage",
+    "config": {}
+  },
+  {
+    "type": "gotoUrl",
+    "config": {
+      "url": "https://portal.example.com/signup",
+      "timeout": 30000,
+      "remark": "Open registration portal"
+    }
+  },
+  {
+    "type": "waitForSelector",
+    "config": {
+      "selectorRadio": "TEXT",
+      "selector": "Connect Account",
+      "serial": 1,
+      "isShow": "1",
+      "timeout": 30000,
+      "variable": "",
+      "remark": "Wait for account connection button"
+    }
+  },
+  {
+    "type": "click",
+    "config": {
+      "selectorRadio": "TEXT",
+      "selector": "Connect Account",
+      "selectorType": "selector",
+      "element": "",
+      "serialType": "fixedValue",
+      "serial": 1,
+      "serialMin": 1,
+      "serialMax": 50,
+      "button": "left",
+      "type": "click",
+      "remark": "Start account connection"
+    }
+  },
+  {
+    "type": "waitForSelector",
+    "config": {
+      "selectorRadio": "TEXT",
+      "selector": "Browser Extension",
+      "serial": 1,
+      "isShow": "1",
+      "timeout": 30000,
+      "variable": "",
+      "remark": "Wait for browser extension option"
+    }
+  },
+  {
+    "type": "click",
+    "config": {
+      "selectorRadio": "TEXT",
+      "selector": "Browser Extension",
+      "selectorType": "selector",
+      "element": "",
+      "serialType": "fixedValue",
+      "serial": 1,
+      "serialMin": 1,
+      "serialMax": 50,
+      "button": "left",
+      "type": "click",
+      "remark": "Select browser extension connection"
+    }
+  },
+  {
+    "type": "waitTime",
+    "config": {
+      "timeoutType": "randomInterval",
+      "timeout": 30000,
+      "timeoutMin": 5000,
+      "timeoutMax": 7000,
+      "remark": "Wait for extension confirmation window"
+    }
+  },
+  {
+    "type": "click",
+    "config": {
+      "selectorRadio": "CSS",
+      "selector": "button.btn--rounded.btn-primary.page-container__footer-button",
+      "selectorType": "selector",
+      "element": "",
+      "serialType": "fixedValue",
+      "serial": 1,
+      "serialMin": 1,
+      "serialMax": 50,
+      "button": "left",
+      "type": "click",
+      "remark": "Confirm account connection"
+    }
+  },
+  {
+    "type": "waitTime",
+    "config": {
+      "timeoutType": "randomInterval",
+      "timeout": 30000,
+      "timeoutMin": 5000,
+      "timeoutMax": 7000,
+      "remark": "Wait for second confirmation step"
+    }
+  },
+  {
+    "type": "click",
+    "config": {
+      "selectorRadio": "CSS",
+      "selector": "button.btn--rounded.btn-primary.page-container__footer-button",
+      "selectorType": "selector",
+      "element": "",
+      "serialType": "fixedValue",
+      "serial": 1,
+      "serialMin": 1,
+      "serialMax": 50,
+      "button": "left",
+      "type": "click",
+      "remark": "Approve final connection step"
+    }
+  },
+  {
+    "type": "waitTime",
+    "config": {
+      "timeoutType": "randomInterval",
+      "timeout": 30000,
+      "timeoutMin": 5000,
+      "timeoutMax": 7000,
+      "remark": "Wait before JavaScript UI action"
+    }
+  },
+  {
+    "type": "javaScript",
+    "config": {
+      "params": [],
+      "content": "document.querySelector('div.extension-confirmation-panel > div > button > span')?.click();",
+      "variable": "",
+      "remark": "Execute JavaScript click for complex UI element"
+    }
+  },
+  {
+    "type": "waitTime",
+    "config": {
+      "timeoutType": "randomInterval",
+      "timeout": 30000,
+      "timeoutMin": 5000,
+      "timeoutMax": 7000,
+      "remark": "Wait for registration form"
+    }
+  },
+  {
+    "type": "click",
+    "config": {
+      "selectorRadio": "CSS",
+      "selector": "button.primary-action-button",
+      "selectorType": "selector",
+      "element": "",
+      "serialType": "fixedValue",
+      "serial": 1,
+      "serialMin": 1,
+      "serialMax": 50,
+      "button": "left",
+      "type": "click",
+      "remark": "Continue registration"
+    }
+  },
+  {
+    "type": "waitForSelector",
+    "config": {
+      "selectorRadio": "CSS",
+      "selector": "input[placeholder=\"Please enter your email address\"]",
+      "serial": 1,
+      "isShow": "1",
+      "timeout": 90000,
+      "variable": "",
+      "remark": "Wait for email input"
+    }
+  },
+  {
+    "type": "inputContent",
+    "config": {
+      "selectorRadio": "CSS",
+      "selector": "input[placeholder=\"Please enter your email address\"]",
+      "serialType": "fixedValue",
+      "selectorType": "selector",
+      "element": "",
+      "serial": 1,
+      "serialMin": 1,
+      "serialMax": 50,
+      "intervals": 30,
+      "content": "",
+      "isRandom": "1",
+      "randomContent": "${user_email}",
+      "randomInputNum": {
+        "min": 0.1,
+        "max": 10
+      },
+      "remark": "Input email from spreadsheet"
+    }
+  },
+  {
+    "type": "waitTime",
+    "config": {
+      "timeoutType": "randomInterval",
+      "timeout": 30000,
+      "timeoutMin": 3000,
+      "timeoutMax": 5000,
+      "remark": "Wait before requesting verification code"
+    }
+  },
+  {
+    "type": "click",
+    "config": {
+      "selectorRadio": "TEXT",
+      "selector": "Send Verification Code",
+      "selectorType": "selector",
+      "element": "",
+      "serialType": "fixedValue",
+      "serial": 1,
+      "serialMin": 1,
+      "serialMax": 50,
+      "button": "left",
+      "type": "click",
+      "remark": "Request email verification code"
+    }
+  },
+  {
+    "type": "newPage",
+    "config": {}
+  },
+  {
+    "type": "gotoUrl",
+    "config": {
+      "url": "https://mail.google.com/mail/u/0/#inbox",
+      "timeout": 30000,
+      "remark": "Open Gmail inbox for verification email"
+    }
+  }
+]
